@@ -3479,30 +3479,12 @@ class VwWeconnect extends utils.Adapter {
 
 
 
-
-
-setIdRemote2(vin, action, value, bodyContent) {
-    
-            try {
-              this.log.error("Test2 vin: " + vin + " action: " + action + " bodyContent: " + bodyContent + " value" + value);
-            resolve();
-          } catch () {
-            this.log.error("Fehler");
-            reject();
-          }
-}
-
-
-
-  
-  setIdRemote(vin, action, value, bodyContent) {
-    this.log.error("vin: " + vin + " action: " + action + " bodyContent: " + bodyContent + " value" + value);
+setIdRemote(vin, action, value, bodyContent) {
+      this.log.error("vin: " + vin + " action: " + action + " bodyContent: " + bodyContent + " value" + value);
     return new Promise(async (resolve, reject) => {
       const pre = this.name + "." + this.instance;
       let body = bodyContent || {};
-
       if (action === "climatisation" && value === "start") {
-        this.log.debug("Klima soll gestartet werden");
         const climateStates = await this.getStatesAsync(pre + "." + vin + ".status.climatisationSettings.*");
         body = {};
         const allIds = Object.keys(climateStates);
@@ -3512,7 +3494,7 @@ setIdRemote2(vin, action, value, bodyContent) {
             body[key] = climateStates[keyName].val;
           }
         });
-        this.log.debug(JSON.stringify(body));
+
         // body = JSON.stringify(body);
       }
       let method = "POST";
@@ -3572,6 +3554,9 @@ setIdRemote2(vin, action, value, bodyContent) {
       );
     });
   }
+
+
+
 
 
 
@@ -5079,7 +5064,7 @@ setIdRemote2(vin, action, value, bodyContent) {
               if (this.config.type === "id" || this.config.type === "audietron") {
                 const value = state.val ? "start" : "stop";
                 this.log.error("Test1 vin: " + vin + " action: " + action + " value: " + value);
-                this.setIdRemote2(vin, action, value, "Test2").catch(() => {
+                this.setIdRemote(vin, action, value, "Test2").catch(() => {
                   this.log.error("Status setzen fehlgeschlagen " + action);
                 });
                 return;
