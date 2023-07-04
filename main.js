@@ -3490,6 +3490,7 @@ class VwWeconnect extends utils.Adapter {
     return new Promise(async (resolve, reject) => {
       const pre = this.name + "." + this.instance;
       let body = bodyContent || {};
+this.log.debug("pre: " + pre + "bodyContent: " + bodyContent + "value" + value);
       if (action === "climatisation" && value === "start") {
         this.log.debug("Klima soll gestartet werden");
         const climateStates = await this.getStatesAsync(pre + "." + vin + ".status.climatisationSettings.*");
