@@ -5058,6 +5058,7 @@ class VwWeconnect extends utils.Adapter {
                 if (action === "climatisationv2") {
                   const heaterSourceState = await this.getStateAsync(vin + ".climater.settings.heaterSource.content");
                   let heaterSource = "electric";
+                  this.log.debug(heaterSourceState);
                   if (heaterSourceState.val) {
                     heaterSource = heaterSourceState.val;
                   }
