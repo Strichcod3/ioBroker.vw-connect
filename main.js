@@ -3487,10 +3487,12 @@ class VwWeconnect extends utils.Adapter {
 
   
   setIdRemote(vin, action, value, bodyContent) {
+    this.log.debug("vin: " + vin + "action: " + action + "bodyContent: " + bodyContent + "value" + value);
     return new Promise(async (resolve, reject) => {
       const pre = this.name + "." + this.instance;
+      this.log.debug("pre: " + pre);
       let body = bodyContent || {};
-this.log.debug("pre: " + pre + "bodyContent: " + bodyContent + "value" + value);
+
       if (action === "climatisation" && value === "start") {
         this.log.debug("Klima soll gestartet werden");
         const climateStates = await this.getStatesAsync(pre + "." + vin + ".status.climatisationSettings.*");
