@@ -2295,7 +2295,7 @@ class VwWeconnect extends utils.Adapter {
                   native: {},
                 });
 
-              this.setObjectNotExists(vehicle + ".remote.climatisationv2", {
+              this.setObjectNotExists(vin + ".remote.climatisationv2", {
                 type: "state",
                 common: {
                   name: "Start/Stop Climatisation v2",
