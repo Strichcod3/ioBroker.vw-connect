@@ -3481,16 +3481,17 @@ class VwWeconnect extends utils.Adapter {
 
 
 
-
+setIdRemote2(vin, action, value, bodyContent) {
+    this.log.error("vin: " + vin + " action: " + action + " bodyContent: " + bodyContent + " value" + value);
+}
 
 
 
   
   setIdRemote(vin, action, value, bodyContent) {
-    this.log.debug("vin: " + vin + "action: " + action + "bodyContent: " + bodyContent + "value" + value);
+    this.log.error("vin: " + vin + " action: " + action + " bodyContent: " + bodyContent + " value" + value);
     return new Promise(async (resolve, reject) => {
       const pre = this.name + "." + this.instance;
-      this.log.debug("pre: " + pre);
       let body = bodyContent || {};
 
       if (action === "climatisation" && value === "start") {
@@ -5071,7 +5072,7 @@ class VwWeconnect extends utils.Adapter {
               if (this.config.type === "id" || this.config.type === "audietron") {
                 const value = state.val ? "start" : "stop";
                 this.log.error("Test1 vin: " + vin + " action: " + action + " value: " + value);
-                this.setIdRemote(vin, action, value, "").catch(() => {
+                this.setIdRemote2(vin, action, value, "Test2").catch(() => {
                   this.log.error("Status setzen fehlgeschlagen " + action);
                 });
                 return;
