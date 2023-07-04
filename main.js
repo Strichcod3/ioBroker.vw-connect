@@ -3473,6 +3473,19 @@ class VwWeconnect extends utils.Adapter {
       );
     });
   }
+
+
+
+
+
+
+
+
+
+
+
+
+  
   setIdRemote(vin, action, value, bodyContent) {
     return new Promise(async (resolve, reject) => {
       const pre = this.name + "." + this.instance;
@@ -3547,6 +3560,19 @@ class VwWeconnect extends utils.Adapter {
       );
     });
   }
+
+
+
+
+
+
+
+
+
+
+
+
+  
   refreshTokenv2() {
     return new Promise((resolve, reject) => {
       this.log.debug("Token Refresh started");
@@ -5038,11 +5064,11 @@ class VwWeconnect extends utils.Adapter {
               }
             }
             if (action === "climatisation" || action === "climatisationv2" || action === "climatisationv3") {
-              // if (this.config.type === "id" || this.config.type === "audietron") {
-              if (this.config.type === "id") {
+              if (this.config.type === "id" || this.config.type === "audietron") {
                 const value = state.val ? "start" : "stop";
                 this.setIdRemote(vin, action, value).catch(() => {
-                  this.log.error("failed set state " + action);
+                  this.log.error("Status setzen fehlgeschlagen " + action);
+                  this.log.error(error);
                 });
                 return;
               } else if (this.config.type === "seatcupra") {
