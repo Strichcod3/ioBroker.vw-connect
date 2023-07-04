@@ -3491,6 +3491,7 @@ class VwWeconnect extends utils.Adapter {
       const pre = this.name + "." + this.instance;
       let body = bodyContent || {};
       if (action === "climatisation" && value === "start") {
+        this.log.debug("Klima soll gestartet werden");
         const climateStates = await this.getStatesAsync(pre + "." + vin + ".status.climatisationSettings.*");
         body = {};
         const allIds = Object.keys(climateStates);
@@ -3500,7 +3501,7 @@ class VwWeconnect extends utils.Adapter {
             body[key] = climateStates[keyName].val;
           }
         });
-
+        this.log.debug(JSON.stringify(body));
         // body = JSON.stringify(body);
       }
       let method = "POST";
@@ -5068,7 +5069,6 @@ class VwWeconnect extends utils.Adapter {
                 const value = state.val ? "start" : "stop";
                 this.setIdRemote(vin, action, value).catch(() => {
                   this.log.error("Status setzen fehlgeschlagen " + action);
-                  this.log.error(error);
                 });
                 return;
               } else if (this.config.type === "seatcupra") {
