@@ -5070,7 +5070,7 @@ class VwWeconnect extends utils.Adapter {
             if (action === "climatisation" || action === "climatisationv2" || action === "climatisationv3") {
               if (this.config.type === "id" || this.config.type === "audietron") {
                 const value = state.val ? "start" : "stop";
-                this.log.debug("vin: " + vin + "action: " + action + "value" + value);
+                this.log.error("vin: " + vin + "action: " + action + "value" + value);
                 this.setIdRemote(vin, action, value).catch(() => {
                   this.log.error("Status setzen fehlgeschlagen " + action);
                 });
