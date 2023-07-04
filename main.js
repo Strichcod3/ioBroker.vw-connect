@@ -3482,7 +3482,14 @@ class VwWeconnect extends utils.Adapter {
 
 
 setIdRemote2(vin, action, value, bodyContent) {
-    this.log.error("vin: " + vin + " action: " + action + " bodyContent: " + bodyContent + " value" + value);
+    
+            try {
+              this.log.error("Test2 vin: " + vin + " action: " + action + " bodyContent: " + bodyContent + " value" + value);
+            resolve();
+          } catch () {
+            this.log.error("Fehler");
+            reject();
+          }
 }
 
 
