@@ -2294,10 +2294,28 @@ class VwWeconnect extends utils.Adapter {
                   },
                   native: {},
                 });
+
+              this.setObjectNotExists(vehicle + ".remote.climatisationv2", {
+                type: "state",
+                common: {
+                  name: "Start/Stop Climatisation v2",
+                  type: "boolean",
+                  role: "switch",
+                  write: true,
+                },
+                native: {},
+              });
+                
               });
               resolve();
               return;
             }
+// end of audietron
+
+
+
+
+            
             if (!body.userVehicles) {
               this.log.info("No Vehicles found");
               resolve();
