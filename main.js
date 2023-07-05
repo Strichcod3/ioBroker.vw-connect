@@ -2294,28 +2294,10 @@ class VwWeconnect extends utils.Adapter {
                   },
                   native: {},
                 });
-
-              this.setObjectNotExists(vin + ".remote.climatisationv2", {
-                type: "state",
-                common: {
-                  name: "Start/Stop Climatisation v2",
-                  type: "boolean",
-                  role: "switch",
-                  write: true,
-                },
-                native: {},
-              });
-                
               });
               resolve();
               return;
             }
-// end of audietron
-
-
-
-
-            
             if (!body.userVehicles) {
               this.log.info("No Vehicles found");
               resolve();
@@ -3473,14 +3455,7 @@ class VwWeconnect extends utils.Adapter {
       );
     });
   }
-
-
-
-
-
-
-setIdRemote(vin, action, value, bodyContent) {
-      this.log.error("vin: " + vin + " action: " + action + " bodyContent: " + bodyContent + " value" + value);
+  setIdRemote(vin, action, value, bodyContent) {
     return new Promise(async (resolve, reject) => {
       const pre = this.name + "." + this.instance;
       let body = bodyContent || {};
@@ -3554,22 +3529,6 @@ setIdRemote(vin, action, value, bodyContent) {
       );
     });
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   refreshTokenv2() {
     return new Promise((resolve, reject) => {
       this.log.debug("Token Refresh started");
@@ -5063,9 +5022,8 @@ setIdRemote(vin, action, value, bodyContent) {
             if (action === "climatisation" || action === "climatisationv2" || action === "climatisationv3") {
               if (this.config.type === "id" || this.config.type === "audietron") {
                 const value = state.val ? "start" : "stop";
-                this.log.error("Test1 vin: " + vin + " action: " + action + " value: " + value);
-                this.setIdRemote(vin, action, value, "Test2").catch(() => {
-                  this.log.error("Status setzen fehlgeschlagen " + action);
+                this.setIdRemote(vin, action, value).catch(() => {
+                  this.log.error("failed set state " + action);
                 });
                 return;
               } else if (this.config.type === "seatcupra") {
@@ -5081,7 +5039,6 @@ setIdRemote(vin, action, value, bodyContent) {
                 if (action === "climatisationv2") {
                   const heaterSourceState = await this.getStateAsync(vin + ".climater.settings.heaterSource.content");
                   let heaterSource = "electric";
-                  this.log.debug(heaterSourceState);
                   if (heaterSourceState.val) {
                     heaterSource = heaterSourceState.val;
                   }
