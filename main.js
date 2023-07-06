@@ -2561,6 +2561,126 @@ class VwWeconnect extends utils.Adapter {
           //   error.response && this.log.error(JSON.stringify(error.response.data));
         });
 
+
+
+
+
+
+
+
+
+
+
+
+      
+      //Tripdata laden shortTerm und longTerm
+      if (this.tripsActive) {
+        
+        if (this.config.tripShortTerm) {
+          const tripType = "shortTerm";
+          await axios({
+            method: "get",
+    		    url: "https://mal-3a.prd.eu.dp.vwg-connect.com/api/bs/tripstatistics/v1/vehicles/" + vin + "/tripdata/" + tripType + "?type=list",
+            headers: {
+        			accept: "application/json",
+        			"accept-charset": "utf-8",
+        			"X-App-Version": this.xappversion,
+        			"X-App-Name": this.xappname,
+        			authorization: "Bearer " + this.config.atoken,
+        			"X-Client-Id": this.xclientId,
+        			"user-agent": this.userAgent,
+        			"Accept-Encoding": "gzip"
+          },
+        })
+          .then(async (result) => {
+            result.tripData.sort((a, b) => {
+              return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
+            });
+            if (this.config.numberOfTrips > 0)
+              result.tripData = result.tripData.slice(0, this.config.numberOfTrips);
+  
+            if (this.config.rawJson) {          
+              await this.setObjectNotExistsAsync(vin + ".status.tripdata" + tripType + "rawJson", {
+                type: "state",
+                common: {
+                  name: "Raw Json",
+                  role: "indicator",
+                  type: "mixed",
+                  write: false,
+                  read: true,
+                },
+                native: {},
+              });
+              this.setState(vin + ".status.tripdata" + tripType + "rawJson", JSON.stringify(result.tripData), true);
+            }
+      		  resolve();
+          })
+          .catch((error) => {
+            this.log.debug(error);
+            //   error.response && this.log.error(JSON.stringify(error.response.data));
+          });
+        }
+
+        if (this.config.tripLongTerm) {
+          const tripType = "longTerm";
+          await axios({
+            method: "get",
+    		    url: "https://mal-3a.prd.eu.dp.vwg-connect.com/api/bs/tripstatistics/v1/vehicles/" + vin + "/tripdata/" + tripType + "?type=list",
+            headers: {
+        			accept: "application/json",
+        			"accept-charset": "utf-8",
+        			"X-App-Version": this.xappversion,
+        			"X-App-Name": this.xappname,
+        			authorization: "Bearer " + this.config.atoken,
+        			"X-Client-Id": this.xclientId,
+        			"user-agent": this.userAgent,
+        			"Accept-Encoding": "gzip"
+          },
+        })
+          .then(async (result) => {
+            result.tripData.sort((a, b) => {
+              return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
+            });
+            if (this.config.numberOfTrips > 0)
+              result.tripData = result.tripData.slice(0, this.config.numberOfTrips);
+  
+            if (this.config.rawJson) {          
+              await this.setObjectNotExistsAsync(vin + ".status.tripdata" + tripType + "rawJson", {
+                type: "state",
+                common: {
+                  name: "Raw Json",
+                  role: "indicator",
+                  type: "mixed",
+                  write: false,
+                  read: true,
+                },
+                native: {},
+              });
+              this.setState(vin + ".status.tripdata" + tripType + "rawJson", JSON.stringify(result.tripData), true);
+            }
+      		  resolve();
+          })
+          .catch((error) => {
+            this.log.debug(error);
+            //   error.response && this.log.error(JSON.stringify(error.response.data));
+          });
+        }
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+      
       await axios({
         method: "get",
         url: "https://emea.bff.cariad.digital/vehicle/v1/vehicles/" + vin + "/selectivestatus?jobs=all",
