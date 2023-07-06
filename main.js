@@ -2574,9 +2574,9 @@ class VwWeconnect extends utils.Adapter {
 
       
       //Tripdata laden shortTerm und longTerm
-//      if (this.tripsActive) {
+      if (this.tripsActive) {
         
-//        if (this.config.tripShortTerm) {
+        if (this.config.tripShortTerm) {
           const tripType = "shortTerm";
           await axios({
             method: "get",
@@ -2599,7 +2599,7 @@ class VwWeconnect extends utils.Adapter {
             if (this.config.numberOfTrips > 0)
               result.tripData = result.tripData.slice(0, this.config.numberOfTrips);
   
-//            if (this.config.rawJson) {          
+            if (this.config.rawJson) {          
               this.setObjectNotExistsAsync(vin + ".status.tripdata" + tripType + "rawJson", {
                 type: "state",
                 common: {
@@ -2612,7 +2612,7 @@ class VwWeconnect extends utils.Adapter {
                 native: {},
               });
               this.setState(vin + ".status.tripdata" + tripType + "rawJson", JSON.stringify(result.tripData), true);
-//            }
+            }
             this.log.debug(JSON.stringify(result));
       		  resolve();
           })
@@ -2621,7 +2621,7 @@ class VwWeconnect extends utils.Adapter {
             reject();
             //   error.response && this.log.error(JSON.stringify(error.response.data));
           });
-//      }
+      }
 
         if (this.config.tripLongTerm) {
           const tripType = "longTerm";
@@ -2669,7 +2669,7 @@ class VwWeconnect extends utils.Adapter {
             //   error.response && this.log.error(JSON.stringify(error.response.data));
           });
         }
-//      }
+      }
 
 
 
