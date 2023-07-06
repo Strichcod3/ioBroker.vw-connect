@@ -2574,13 +2574,19 @@ class VwWeconnect extends utils.Adapter {
 
       
       //Tripdata laden shortTerm und longTerm
+
+      let url = this.replaceVarInUrl(
+        "$homeregion/fs-car/bs/tripstatistics/v1/$type/$country/vehicles/$vin/tripdata/$tripType?type=list",
+      );
        
+
+      
         if (this.config.tripShortTerm) {
           const tripType = "shortTerm";
           this.log.error("Test" + JSON.stringify(tripType));
           await axios({
             method: "get",
-    		    url: "https://emea.bff.cariad.digital/vehicle/v1/vehicles/" + vin + "/tripdata/" + tripType + "?type=list&from=1970-01-01T00%3A00%3A00Z&to=2023-07-05T20%3A36%3A37Z",
+    		    url: url,
             headers: {
         			accept: "application/json",
         			"accept-charset": "utf-8",
