@@ -2576,7 +2576,7 @@ class VwWeconnect extends utils.Adapter {
       //Tripdata laden shortTerm und longTerm
 //      if (this.tripsActive) {
         
-//        if (this.config.tripShortTerm) {
+        if (this.config.tripShortTerm) {
           const tripType = "shortTerm";
           await axios({
             method: "get",
@@ -2621,7 +2621,7 @@ class VwWeconnect extends utils.Adapter {
             reject();
             //   error.response && this.log.error(JSON.stringify(error.response.data));
           });
-//      }
+      }
 
         if (this.config.tripLongTerm) {
           const tripType = "longTerm";
