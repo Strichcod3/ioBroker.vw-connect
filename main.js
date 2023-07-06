@@ -2613,10 +2613,12 @@ class VwWeconnect extends utils.Adapter {
               });
               this.setState(vin + ".status.tripdata" + tripType + "rawJson", JSON.stringify(result.tripData), true);
             }
+            this.log.debug(JSON.stringify(result.data));
       		  resolve();
           })
           .catch((error) => {
-            this.log.debug(error);
+            this.log.debug(JSON.stringify(error));
+            reject();
             //   error.response && this.log.error(JSON.stringify(error.response.data));
           });
         }
@@ -2662,6 +2664,7 @@ class VwWeconnect extends utils.Adapter {
           })
           .catch((error) => {
             this.log.debug(error);
+            reject();
             //   error.response && this.log.error(JSON.stringify(error.response.data));
           });
         }
