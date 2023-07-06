@@ -2587,9 +2587,10 @@ class VwWeconnect extends utils.Adapter {
         			"X-App-Version": "4.18.0",
         			"X-App-Name": this.xappname,
         			authorization: "Bearer " + this.config.atoken,
-        			"X-Client-Id": this.xclientId,
+        			"X-Client-Id": "a09b50fe-27f9-410b-9a3e-cb7e5b7e45eb",
         			"user-agent": "Android/4.18.0 (Build 800239240.root project 'onetouch-android'.ext.buildTime) Android/11",
-        			"Accept-Encoding": "gzip"
+        			"Accept-Encoding": "gzip",
+              Host: "mal-3a.prd.eu.dp.vwg-connect.com"
           },
         })
           .then((result) => {
@@ -2637,7 +2638,7 @@ class VwWeconnect extends utils.Adapter {
         			"accept-charset": "utf-8",
         			"X-App-Version": this.xappversion,
         			"X-App-Name": this.xappname,
-        			authorization: "Bearer " + this.config.atoken,
+        			authorization: " " + this.config.atoken,
         			"X-Client-Id": this.xclientId,
         			"user-agent": this.userAgent,
         			"Accept-Encoding": "gzip"
@@ -2695,7 +2696,7 @@ class VwWeconnect extends utils.Adapter {
         headers: {
           "content-type": "application/json",
           accept: "*/*",
-          authorization: "Bearer " + this.config.atoken,
+          authorization: " " + this.config.atoken,
           "accept-language": "de-DE,de;q=0.9",
           "user-agent": this.userAgent,
           "content-version": "1",
@@ -2768,7 +2769,7 @@ class VwWeconnect extends utils.Adapter {
 
             "user-agent": this.userAgent,
             "accept-language": "de-de",
-            authorization: "Bearer " + this.config.atoken,
+            authorization: " " + this.config.atoken,
           },
           followAllRedirects: true,
           gzip: true,
@@ -2821,7 +2822,7 @@ class VwWeconnect extends utils.Adapter {
             accept: "*/*",
             "user-agent": this.userAgent,
             "accept-language": "de-de",
-            authorization: "Bearer " + this.config.atoken,
+            authorization: " " + this.config.atoken,
           },
           followAllRedirects: true,
           gzip: true,
@@ -2869,7 +2870,7 @@ class VwWeconnect extends utils.Adapter {
             accept: "*/*",
             "user-agent": this.userAgent,
             "accept-language": "de-de",
-            authorization: "Bearer " + this.config.atoken,
+            authorization: " " + this.config.atoken,
           },
           followAllRedirects: true,
           gzip: true,
@@ -2901,7 +2902,7 @@ class VwWeconnect extends utils.Adapter {
             accept: "*/*",
             "user-agent": this.userAgent,
             "accept-language": "de-de",
-            authorization: "Bearer " + this.config.atoken,
+            authorization: " " + this.config.atoken,
           },
           followAllRedirects: true,
           gzip: true,
@@ -2956,7 +2957,7 @@ class VwWeconnect extends utils.Adapter {
               "content-type": "application/json;charset=UTF-8",
               "user-agent": this.userAgent,
               "If-None-Match": this.etags[url] || "",
-              authorization: "Bearer " + this.config.atoken,
+              authorization: " " + this.config.atoken,
             },
             followAllRedirects: true,
             gzip: true,
@@ -3021,7 +3022,7 @@ class VwWeconnect extends utils.Adapter {
         "user-agent": this.userAgent,
         "accept-language": "de-de",
         "If-None-Match": this.etags[url] || "",
-        authorization: "Bearer " + this.config.atoken,
+        authorization: " " + this.config.atoken,
       };
       if (status.path === "position/vehicles") {
         if (this.secondAccessToken === "blocked") {
@@ -3031,7 +3032,7 @@ class VwWeconnect extends utils.Adapter {
           this.log.warn("Missing second auth token for parking position");
           continue;
         }
-        headers["Authorization"] = "Bearer " + this.secondAccessToken;
+        headers["Authorization"] = " " + this.secondAccessToken;
       }
       await axios({
         method: "get",
