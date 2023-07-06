@@ -2577,7 +2577,7 @@ class VwWeconnect extends utils.Adapter {
        
         if (this.config.tripShortTerm) {
           const tripType = "shortTerm";
-          this.log.error(JSON.stringify(tripType));
+          this.log.error("Test" + JSON.stringify(tripType));
           await axios({
             method: "get",
     		    url: "https://mal-3a.prd.eu.dp.vwg-connect.com/api/bs/tripstatistics/v1/vehicles/" + vin + "/tripdata/" + tripType + "?type=list",
@@ -2593,7 +2593,7 @@ class VwWeconnect extends utils.Adapter {
           },
         })
           .then((result) => {
-
+            this.log.error("Test2" + JSON.stringify(result));
             result.tripData.sort((a, b) => {
               return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
             });
