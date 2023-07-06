@@ -2592,7 +2592,8 @@ class VwWeconnect extends utils.Adapter {
         			"Accept-Encoding": "gzip"
           },
         })
-          .then(async (result) => {
+          .then((result) => {
+/*
             result.tripData.sort((a, b) => {
               return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
             });
@@ -2613,6 +2614,7 @@ class VwWeconnect extends utils.Adapter {
               });
               this.setState(vin + ".status.tripdata" + tripType + "rawJson", JSON.stringify(result.tripData), true);
             }
+*/            
             this.log.debug(JSON.stringify(result));
       		  resolve();
           })
