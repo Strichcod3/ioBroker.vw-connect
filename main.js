@@ -2592,7 +2592,7 @@ class VwWeconnect extends utils.Adapter {
         			"accept-charset": "utf-8",
         			"X-App-Version": "4.18.0",
         			"X-App-Name": this.xappname,
-        			authorization: "Bearer " + this.config.atoken,
+        			authorization: "Bearer eyJraWQiOiJNQkIwMSIsImFsZyI6IlJTMjU2In0.eyJzY3AiOlsiZmFsIl0sInN1YiI6Ind3NVRFV3VsbVlkZ29VSHY3NGtocDJ5RlFmWSIsInZlciI6IjEiLCJjb3IiOiJERSIsImlzcyI6IlZXR01CQjAxREVMSVYxIiwiY250IjoiYTA5YjUwZmUtMjdmOS00MTBiLTlhM2UtY2I3ZTViN2U0NWViIiwiY2NoIjoiYXBwIiwidHlwIjoiQVQiLCJzeXMiOiJYSURfQVBQX0FVREkiLCJzdHlwIjoiVDIiLCJhdWQiOlsiaGEtNWEucHJkLmV1LnZ3Zy52d2F1dG9jbG91ZC5uZXQiLCJtYWwucHJkLmVjZS52d2ctY29ubmVjdC5jb20iLCJoYS01YS5wcmQubmFyLnZ3Zy52d2F1dG9jbG91ZC5uZXQiXSwidmJuZCI6IkF1ZGkiLCJ2aW4iOiJXQVVaWlpHWTlOQTAwNjM0MyIsInRudCI6IkF1ZGksREVGQVVMVCIsImV4cCI6MTY4ODY1NDkwMiwidmN0ciI6IkRFIiwiaWF0IjoxNjg4NjUxMzAyLCJydC1pZCI6IjM0MTU1YjE5LWYwZTEtNDJjYy1hY2U2LTU2MzdmMzMxZWIwNCIsImp0aSI6Ijc1NzllOWEzLWRkNDYtNDRlZi1hNWNlLWE1NGFiY2U3OWRiMSJ9.YtlvQnUkGUIdfeyMZt1-ug7s7yQG2Hhk_d7maiEK4sHe-q94aFRfySoeqxVQJRvspY_OkHAnKczbf1bOj3wS6dfNmYH2GDIQGA7z0AKK32TaeuI0RSJ81fElALukpmUo-lOZOMUxBIUhGAtshayy-j4nVp1QZ9HMGOo2Sotfey6kPB86ZbFo3l9PAlgWK3D4XfQ5X9ehv1PdgDDu9O5gLFQDhIlncgky15v3svbLRZ765Od8VbavQApF8d022ZX_2HtWSvdSJdYEnY_Q2mrl9tGxn7wqq8rPyG2AHB_pN7MTVe8B4_kz9b5pthU62AmBoiZhYTmXUeRzjXoKoWNWpw",
         			"X-Client-Id": "a09b50fe-27f9-410b-9a3e-cb7e5b7e45eb",
         			"user-agent": "Android/4.18.0 (Build 800239240.root project 'onetouch-android'.ext.buildTime) Android/11",
         			"Accept-Encoding": "gzip",
