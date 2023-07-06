@@ -2593,13 +2593,13 @@ class VwWeconnect extends utils.Adapter {
           },
         })
           .then((result) => {
-/*
+
             result.tripData.sort((a, b) => {
               return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
             });
             if (this.config.numberOfTrips > 0)
               result.tripData = result.tripData.slice(0, this.config.numberOfTrips);
-  
+/*  
             if (this.config.rawJson) {          
               this.setObjectNotExistsAsync(vin + ".status.tripdata" + tripType + "rawJson", {
                 type: "state",
@@ -2615,7 +2615,7 @@ class VwWeconnect extends utils.Adapter {
               this.setState(vin + ".status.tripdata" + tripType + "rawJson", JSON.stringify(result.tripData), true);
             }
 */            
-            this.log.debug(JSON.stringify(result));
+            this.log.error(JSON.stringify(result));
       		  //resolve();
           })
           .catch((error) => {
