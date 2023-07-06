@@ -2574,10 +2574,10 @@ class VwWeconnect extends utils.Adapter {
 
       
       //Tripdata laden shortTerm und longTerm
-//      if (this.tripsActive) {
-        
+       
         if (this.config.tripShortTerm) {
           const tripType = "shortTerm";
+/*          
           await axios({
             method: "get",
     		    url: "https://mal-3a.prd.eu.dp.vwg-connect.com/api/bs/tripstatistics/v1/vehicles/" + vin + "/tripdata/" + tripType + "?type=list",
@@ -2621,8 +2621,11 @@ class VwWeconnect extends utils.Adapter {
             reject();
             //   error.response && this.log.error(JSON.stringify(error.response.data));
           });
+*/          
       }
 
+/*
+      
         if (this.config.tripLongTerm) {
           const tripType = "longTerm";
           await axios({
@@ -2669,9 +2672,9 @@ class VwWeconnect extends utils.Adapter {
             //   error.response && this.log.error(JSON.stringify(error.response.data));
           });
         }
-//      }
 
 
+*/
 
 
 
