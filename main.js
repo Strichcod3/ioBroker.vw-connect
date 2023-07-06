@@ -2580,13 +2580,13 @@ class VwWeconnect extends utils.Adapter {
           this.log.error("Test" + JSON.stringify(tripType));
           await axios({
             method: "get",
-    		    url: "https://mal-3a.prd.eu.dp.vwg-connect.com/api/bs/tripstatistics/v1/vehicles/" + vin + "/tripdata/" + tripType + "?type=list&from=1970-01-01T00%3A00%3A00Z&to=2023-07-05T20%3A36%3A37Z",
+    		    url: "https://emea.bff.cariad.digital/vehicle/v1/vehicles/" + vin + "/tripdata/" + tripType + "?type=list&from=1970-01-01T00%3A00%3A00Z&to=2023-07-05T20%3A36%3A37Z",
             headers: {
         			accept: "application/json",
         			"accept-charset": "utf-8",
         			"X-App-Version": "4.18.0",
         			"X-App-Name": this.xappname,
-        			authorization: "Bearer " + this.config.rtoken,
+        			authorization: "Bearer " + this.config.atoken,
         			"X-Client-Id": "a09b50fe-27f9-410b-9a3e-cb7e5b7e45eb",
         			"user-agent": "Android/4.18.0 (Build 800239240.root project 'onetouch-android'.ext.buildTime) Android/11",
         			"Accept-Encoding": "gzip",
