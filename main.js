@@ -2589,8 +2589,7 @@ class VwWeconnect extends utils.Adapter {
         			authorization: "Bearer " + this.config.atoken,
         			"X-Client-Id": "a09b50fe-27f9-410b-9a3e-cb7e5b7e45eb",
         			"user-agent": "Android/4.18.0 (Build 800239240.root project 'onetouch-android'.ext.buildTime) Android/11",
-        			"Accept-Encoding": "gzip",
-              Host: "mal-3a.prd.eu.dp.vwg-connect.com"
+        			"Accept-Encoding": "gzip"
           },
         })
           .then((result) => {
