@@ -2619,7 +2619,7 @@ class VwWeconnect extends utils.Adapter {
       		  //resolve();
           })
           .catch((error) => {
-            //this.log.debug(JSON.stringify(error));
+            this.log.error(JSON.stringify(error));
             //reject();
             //   error.response && this.log.error(JSON.stringify(error.response.data));
           });
