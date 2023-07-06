@@ -2615,7 +2615,7 @@ class VwWeconnect extends utils.Adapter {
               this.setState(vin + ".status.tripdata" + tripType + "rawJson", JSON.stringify(result.tripData), true);
             }
 */            
-            //this.log.debug(JSON.stringify(result));
+            this.log.debug(JSON.stringify(result));
       		  //resolve();
           })
           .catch((error) => {
