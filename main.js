@@ -1148,7 +1148,7 @@ class VwWeconnect extends utils.Adapter {
     };
     if (this.config.type === "audietron") {
       this.getTokensv2(getRequest, code_verifier, reject, resolve);
-      this.getVWToken({}, jwtid_token, reject, resolve);
+      //this.getVWToken({}, jwtid_token, reject, resolve);
       return;
     }
     
