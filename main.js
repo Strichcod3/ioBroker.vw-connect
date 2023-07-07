@@ -441,6 +441,7 @@ class VwWeconnect extends utils.Adapter {
   }
 
   login() {
+    this.log.info("login() wird gestartet...");
     return new Promise(async (resolve, reject) => {
       const nonce = this.getNonce();
       const state = uuidv4();
@@ -1007,6 +1008,7 @@ class VwWeconnect extends utils.Adapter {
     return "v1:01da27b0:" + xqmauth_val;
   }
   getTokensv2(getRequest, code_verifier, reject, resolve) {
+    this.log.info("getTokensv2() wird gestartet: " + JSON.stringify(getRequest) + JSON.stringify(code_verifier) +  JSON.stringify(reject) + (resolve));
     const url = getRequest.uri.query;
     this.log.debug(url);
     const queries = qs.parse(url);
@@ -1096,6 +1098,7 @@ class VwWeconnect extends utils.Adapter {
     );
   }
   getTokens(getRequest, code_verifier, reject, resolve) {
+    this.log.info("getTokensv() wird gestartet: " + JSON.stringify(getRequest) + JSON.stringify(code_verifier) +  JSON.stringify(reject) + (resolve));
     if (this.config.type === "audietron") {
       this.getTokensv2(getRequest, code_verifier, reject, resolve);
       return;
