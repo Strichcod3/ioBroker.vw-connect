@@ -1097,7 +1097,10 @@ class VwWeconnect extends utils.Adapter {
   }
   getTokens(getRequest, code_verifier, reject, resolve) {
     this.log.info("getTokens() wird gestartet: " + this.config.type + JSON.stringify(getRequest) + JSON.stringify(code_verifier) +  JSON.stringify(reject) + JSON.stringify(resolve));
-
+    if (this.config.type === "audietron") {
+      this.getTokensv2(getRequest, code_verifier, reject, resolve);
+      return;
+    }
 
     let hash = "";
     if (getRequest.uri.hash) {
@@ -1249,10 +1252,8 @@ class VwWeconnect extends utils.Adapter {
       }
     }
     
-    if (this.config.type === "audietron") {
-      this.getTokensv2(getRequest, code_verifier, reject, resolve);
-    }
-    if (this.config.type === "audi" || this.config.type === "audietron") {
+
+    if (this.config.type === "audi") {
       this.getVWToken({}, jwtid_token, reject, resolve);
       return;
     }
