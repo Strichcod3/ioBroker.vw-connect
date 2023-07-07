@@ -1303,7 +1303,7 @@ class VwWeconnect extends utils.Adapter {
         try {
           const tokens = JSON.parse(body);
 
-          this.(tokens, jwtid_token, reject, resolve);
+          this.getVWToken(tokens, jwtid_token, reject, resolve);
         } catch (err) {
           this.log.error(err);
           reject();
