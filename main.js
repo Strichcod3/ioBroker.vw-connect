@@ -441,7 +441,7 @@ class VwWeconnect extends utils.Adapter {
   }
 
   login() {
-    this.log.info("login() wird gestartet...");
+    this.log.info("login() wird gestartet: " + this.config.type);
     return new Promise(async (resolve, reject) => {
       const nonce = this.getNonce();
       const state = uuidv4();
@@ -1008,7 +1008,7 @@ class VwWeconnect extends utils.Adapter {
     return "v1:01da27b0:" + xqmauth_val;
   }
   getTokensv2(getRequest, code_verifier, reject, resolve) {
-    this.log.info("getTokensv2() wird gestartet: " + JSON.stringify(getRequest) + JSON.stringify(code_verifier) +  JSON.stringify(reject) + (resolve));
+    this.log.info("getTokensv2() wird gestartet: " + this.config.type + JSON.stringify(getRequest) + JSON.stringify(code_verifier) +  JSON.stringify(reject) + JSON.stringify((resolve));
     const url = getRequest.uri.query;
     this.log.debug(url);
     const queries = qs.parse(url);
@@ -1098,7 +1098,7 @@ class VwWeconnect extends utils.Adapter {
     );
   }
   getTokens(getRequest, code_verifier, reject, resolve) {
-    this.log.info("getTokensv() wird gestartet: " + JSON.stringify(getRequest) + JSON.stringify(code_verifier) +  JSON.stringify(reject) + (resolve));
+    this.log.info("getTokensv() wird gestartet: " + this.config.type + JSON.stringify(getRequest) + JSON.stringify(code_verifier) +  JSON.stringify(reject) + JSON.stringify((resolve));
     if (this.config.type === "audietron") {
       this.getTokensv2(getRequest, code_verifier, reject, resolve);
       return;
@@ -1310,6 +1310,7 @@ class VwWeconnect extends utils.Adapter {
   }
 
   getVWToken(tokens, jwtid_token, reject, resolve) {
+    this.log.info("getVWToken() wird gestartet: " + this.config.type + JSON.stringify(tokens) + JSON.stringify(jwtid_token) +  JSON.stringify(reject) + JSON.stringify(resolve));
     if (this.config.type !== "audi") {
       if (this.config.type === "id") {
         if (this.type === "Wc") {
