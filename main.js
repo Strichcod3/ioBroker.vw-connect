@@ -2536,6 +2536,12 @@ class VwWeconnect extends utils.Adapter {
   getIdStatus(vin) {
     this.config.type = "audi";
     this.login();
+
+    this.log.info("atoken: Bearer " + this.config.atoken);
+    this.log.info("rtoken: Bearer " + this.config.rtoken);
+    this.log.info("vwatoken: Bearer " + this.config.vwatoken);
+    this.log.info("vwrtoken: Bearer " + this.config.vwrtoken);
+    
     return new Promise(async (resolve, reject) => {
       await axios({
         method: "get",
