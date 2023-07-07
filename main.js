@@ -1146,11 +1146,8 @@ class VwWeconnect extends utils.Adapter {
       "x-app-name": this.xappname,
       accept: "application/json",
     };
-    if (this.config.type === "audietron") {
-      this.getTokensv2(getRequest, code_verifier, reject, resolve);
-      //this.getVWToken({}, jwtid_token, reject, resolve);
-      return;
-    }
+
+
     
     if (this.config.type === "vw" || this.config.type === "vwv2") {
       body += "&code_verifier=" + code_verifier;
@@ -1253,7 +1250,11 @@ class VwWeconnect extends utils.Adapter {
         headers["x-api-key"] = "yabajourasW9N8sm+9F/oP==";
       }
     }
-    if (this.config.type === "audi") {
+    
+    if (this.config.type === "audietron") {
+      this.getTokensv2(getRequest, code_verifier, reject, resolve);
+    }
+    if (this.config.type === "audi" || this.config.type === "audietron") {
       this.getVWToken({}, jwtid_token, reject, resolve);
       return;
     }
