@@ -1398,10 +1398,6 @@ class VwWeconnect extends utils.Adapter {
         }
       }, 0.9 * 60 * 60 * 1000); // 0.9hours
     }
-
-
-    this.log.info("Hier käme jetzt getVWToken(tokens, jwtid_token, reject, resolve)" + );
-    
     if (
       this.config.type === "go" ||
       this.config.type === "id" ||
