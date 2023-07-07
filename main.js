@@ -1310,7 +1310,7 @@ class VwWeconnect extends utils.Adapter {
   }
 
   getVWToken(tokens, jwtid_token, reject, resolve) {
-    this.log.info("getVWToken() wird gestartet: " + this.config.type + JSON.stringify(tokens) + JSON.stringify(jwtid_token) +   + JSON.stringify(resolve));
+    this.log.info("getVWToken() wird gestartet: " + this.config.type + JSON.stringify(tokens) + JSON.stringify(jwtid_token) + JSON.stringify(reject) + JSON.stringify(resolve));
     if (this.config.type !== "audi") {
       if (this.config.type === "id") {
         if (this.type === "Wc") {
@@ -1438,6 +1438,7 @@ class VwWeconnect extends utils.Adapter {
         }
         try {
           const tokens = JSON.parse(body);
+          this.log.info("VWtoken: " + JSON.stringify(tokens))
           this.config.vwatoken = tokens.access_token;
           this.config.vwrtoken = tokens.refresh_token;
           if (this.vwrefreshTokenInterval) {
@@ -2609,16 +2610,16 @@ class VwWeconnect extends utils.Adapter {
       
         if (this.config.tripShortTerm) {
           const tripType = "shortTerm";
-          this.log.error("Test" + JSON.stringify(tripType));
+          this.log.info("Tripdata" + JSON.stringify(tripType));
           await axios({
             method: "get",
-    		    url: "https://34.252.124.245/api/bs/tripstatistics/v1/vehicles/WAUZZZGY9NA006343/tripdata/shortTerm?type=list&from=1970-01-01T00%3A00%3A00Z&to=2023-07-06T13%3A48%3A35Z",
+    		    url: "https://mal-3a.prd.eu.dp.vwg-connect.com/api/bs/tripstatistics/v1/vehicles/WAUZZZGY9NA006343/tripdata/shortTerm?type=list&from=1970-01-01T00%3A00%3A00Z&to=2023-07-06T13%3A48%3A35Z",
             headers: {
         			accept: "application/json",
         			"accept-charset": "utf-8",
         			"X-App-Version": "4.18.0",
         			"X-App-Name": this.xappname,
-        			authorization: "Bearer eyJraWQiOiJNQkIwMSIsImFsZyI6IlJTMjU2In0.eyJzY3AiOlsiZmFsIl0sInN1YiI6Ind3NVRFV3VsbVlkZ29VSHY3NGtocDJ5RlFmWSIsInZlciI6IjEiLCJjb3IiOiJERSIsImlzcyI6IlZXR01CQjAxREVMSVYxIiwiY250IjoiYTA5YjUwZmUtMjdmOS00MTBiLTlhM2UtY2I3ZTViN2U0NWViIiwiY2NoIjoiYXBwIiwidHlwIjoiQVQiLCJzeXMiOiJYSURfQVBQX0FVREkiLCJzdHlwIjoiVDIiLCJhdWQiOlsiaGEtNWEucHJkLmV1LnZ3Zy52d2F1dG9jbG91ZC5uZXQiLCJtYWwucHJkLmVjZS52d2ctY29ubmVjdC5jb20iLCJoYS01YS5wcmQubmFyLnZ3Zy52d2F1dG9jbG91ZC5uZXQiXSwidmJuZCI6IkF1ZGkiLCJ2aW4iOiJXQVVaWlpHWTlOQTAwNjM0MyIsInRudCI6IkF1ZGksREVGQVVMVCIsImV4cCI6MTY4ODY1NDkwMiwidmN0ciI6IkRFIiwiaWF0IjoxNjg4NjUxMzAyLCJydC1pZCI6IjM0MTU1YjE5LWYwZTEtNDJjYy1hY2U2LTU2MzdmMzMxZWIwNCIsImp0aSI6Ijc1NzllOWEzLWRkNDYtNDRlZi1hNWNlLWE1NGFiY2U3OWRiMSJ9.YtlvQnUkGUIdfeyMZt1-ug7s7yQG2Hhk_d7maiEK4sHe-q94aFRfySoeqxVQJRvspY_OkHAnKczbf1bOj3wS6dfNmYH2GDIQGA7z0AKK32TaeuI0RSJ81fElALukpmUo-lOZOMUxBIUhGAtshayy-j4nVp1QZ9HMGOo2Sotfey6kPB86ZbFo3l9PAlgWK3D4XfQ5X9ehv1PdgDDu9O5gLFQDhIlncgky15v3svbLRZ765Od8VbavQApF8d022ZX_2HtWSvdSJdYEnY_Q2mrl9tGxn7wqq8rPyG2AHB_pN7MTVe8B4_kz9b5pthU62AmBoiZhYTmXUeRzjXoKoWNWpw",
+        			authorization: "Bearer ",
         			"X-Client-Id": "a09b50fe-27f9-410b-9a3e-cb7e5b7e45eb",
         			"user-agent": "Android/4.18.0 (Build 800239240.root project 'onetouch-android'.ext.buildTime) Android/11",
         			"Accept-Encoding": "gzip",
@@ -2626,7 +2627,7 @@ class VwWeconnect extends utils.Adapter {
           },
         })
           .then((result) => {
-            this.log.error("Test2" + JSON.stringify(result));
+            this.log.info("Tripdata Erfolg:" + JSON.stringify(result));
             result.tripData.sort((a, b) => {
               return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
             });
