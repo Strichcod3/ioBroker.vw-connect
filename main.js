@@ -2619,7 +2619,7 @@ class VwWeconnect extends utils.Adapter {
         			"accept-charset": "utf-8",
         			"X-App-Version": "4.18.0",
         			"X-App-Name": this.xappname,
-        			authorization: "Bearer ",
+        			authorization: "Bearer " + this.config.vwatoken,
         			"X-Client-Id": "a09b50fe-27f9-410b-9a3e-cb7e5b7e45eb",
         			"user-agent": "Android/4.18.0 (Build 800239240.root project 'onetouch-android'.ext.buildTime) Android/11",
         			"Accept-Encoding": "gzip",
