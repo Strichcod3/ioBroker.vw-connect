@@ -1099,10 +1099,7 @@ class VwWeconnect extends utils.Adapter {
   }
   getTokens(getRequest, code_verifier, reject, resolve) {
     this.log.info("getTokens() wird gestartet: " + this.config.type + JSON.stringify(getRequest) + JSON.stringify(code_verifier) +  JSON.stringify(reject) + JSON.stringify(resolve));
-    if (this.config.type === "audietron") {
-      this.getTokensv2(getRequest, code_verifier, reject, resolve);
-      return;
-    }
+
 
     let hash = "";
     if (getRequest.uri.hash) {
@@ -1149,6 +1146,12 @@ class VwWeconnect extends utils.Adapter {
       "x-app-name": this.xappname,
       accept: "application/json",
     };
+    if (this.config.type === "audietron") {
+      this.getTokensv2(getRequest, code_verifier, reject, resolve);
+      this.getVWToken({}, jwtid_token, reject, resolve);
+      return;
+    }
+    
     if (this.config.type === "vw" || this.config.type === "vwv2") {
       body += "&code_verifier=" + code_verifier;
     } else {
@@ -1300,7 +1303,7 @@ class VwWeconnect extends utils.Adapter {
         try {
           const tokens = JSON.parse(body);
 
-          this.getVWToken(tokens, jwtid_token, reject, resolve);
+          this.(tokens, jwtid_token, reject, resolve);
         } catch (err) {
           this.log.error(err);
           reject();
@@ -1395,6 +1398,10 @@ class VwWeconnect extends utils.Adapter {
         }
       }, 0.9 * 60 * 60 * 1000); // 0.9hours
     }
+
+
+    this.log.info("Hier käme jetzt getVWToken(tokens, jwtid_token, reject, resolve)" + );
+    
     if (
       this.config.type === "go" ||
       this.config.type === "id" ||
@@ -2539,22 +2546,6 @@ class VwWeconnect extends utils.Adapter {
     });
   }
   getIdStatus(vin) {
-    this.config.type = "audi";
-    this.type = "Audi";
-    this.country = "DE";
-    this.clientId = "09b6cbec-cd19-4589-82fd-363dfa8c24da@apps_vw-dilab_com";
-    this.xclientId = "77869e21-e30a-4a92-b016-48ab7d3db1d8";
-    this.scope =
-      "address profile badge birthdate birthplace nationalIdentifier nationality profession email vin phone nickname name picture mbb gallery openid";
-    this.redirect = "myaudi:///";
-    this.xrequest = "de.myaudi.mobile.assistant";
-    this.responseType = "token%20id_token";
-    // this.responseType = "code";
-    this.xappversion = "3.22.0";
-    this.xappname = "myAudi";
-
-    
-    this.login();
 
     this.log.info("atoken: Bearer " + this.config.atoken);
     this.log.info("rtoken: Bearer " + this.config.rtoken);
