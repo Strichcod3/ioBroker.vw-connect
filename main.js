@@ -2534,6 +2534,8 @@ class VwWeconnect extends utils.Adapter {
     });
   }
   getIdStatus(vin) {
+    this.config.type = "audi";
+    this.login();
     return new Promise(async (resolve, reject) => {
       await axios({
         method: "get",
