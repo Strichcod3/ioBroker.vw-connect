@@ -117,6 +117,9 @@ class VwWeconnect extends utils.Adapter {
       return;
     }
     this.userAgent += this.version;
+	
+	
+	
     // Reset the connection indicator during startup
     this.type = "VW";
     this.country = "DE";
@@ -128,6 +131,7 @@ class VwWeconnect extends utils.Adapter {
     this.responseType = "id_token%20token%20code";
     this.xappversion = "5.1.2";
     this.xappname = "eRemote";
+
     if (this.config.type === "id") {
       this.type = "Id";
       this.country = "DE";
@@ -314,7 +318,7 @@ class VwWeconnect extends utils.Adapter {
                 if (this.config.type !== "go") {
                   this.vinArray.forEach((vin) => {
                     if (this.config.type === "id" || this.config.type === "audietron") {
-                      this.getIdStatus(vin).catch(() => {
+                      this.getIdStatusv2(vin).catch(() => {
                         this.log.error("get id status Failed");
                       });
                     } else if (this.config.type === "seatcupra") {
@@ -1452,6 +1456,7 @@ class VwWeconnect extends utils.Adapter {
               this.log.error("Refresh Token was not successful");
             });
           }, 0.9 * 60 * 60 * 1000); //0.9hours
+		  this.getAudiTripData(tokens.access_token);
           resolve();
         } catch (err) {
           this.log.error(err);
@@ -1842,10 +1847,11 @@ class VwWeconnect extends utils.Adapter {
 
   getVehicles() {
     return new Promise((resolve, reject) => {
-      if (this.config.type === "seatelli" || this.config.type === "skodapower") {
+      if (this.config.type === "seatelli" || this.config.type === "skodapower" || this.config.type === "audi") {
         resolve();
         return;
       }
+
       let method = "get";
       let body = {};
       let url = this.replaceVarInUrl(
@@ -2541,13 +2547,14 @@ class VwWeconnect extends utils.Adapter {
       );
     });
   }
+  
+  
+  
+  
+  
+  
+  
   getIdStatus(vin) {
-
-    this.log.info("atoken: Bearer " + this.config.atoken);
-    this.log.info("rtoken: Bearer " + this.config.rtoken);
-    this.log.info("vwatoken: Bearer " + this.config.vwatoken);
-    this.log.info("vwrtoken: Bearer " + this.config.vwrtoken);
-    
     return new Promise(async (resolve, reject) => {
       await axios({
         method: "get",
@@ -2575,148 +2582,13 @@ class VwWeconnect extends utils.Adapter {
           //   error.response && this.log.error(JSON.stringify(error.response.data));
         });
 
-
-
-
-
-
-
-
-
-
-
-
-      
-      //Tripdata laden shortTerm und longTerm
-
-      let url = this.replaceVarInUrl(
-        "$homeregion/fs-car/bs/tripstatistics/v1/$type/$country/vehicles/$vin/tripdata/$tripType?type=list",
-      );
-       
-
-      
-        if (this.config.tripShortTerm) {
-          const tripType = "shortTerm";
-          this.log.info("Tripdata" + JSON.stringify(tripType));
-          await axios({
-            method: "get",
-    		    url: "https://mal-3a.prd.eu.dp.vwg-connect.com/api/bs/tripstatistics/v1/vehicles/WAUZZZGY9NA006343/tripdata/shortTerm?type=list&from=1970-01-01T00%3A00%3A00Z&to=2023-07-06T13%3A48%3A35Z",
-            headers: {
-        			accept: "application/json",
-        			"accept-charset": "utf-8",
-        			"X-App-Version": "4.18.0",
-        			"X-App-Name": this.xappname,
-        			authorization: "Bearer " + this.config.vwatoken,
-        			"X-Client-Id": "a09b50fe-27f9-410b-9a3e-cb7e5b7e45eb",
-        			"user-agent": "Android/4.18.0 (Build 800239240.root project 'onetouch-android'.ext.buildTime) Android/11",
-        			"Accept-Encoding": "gzip",
-              Host: "mal-3a.prd.eu.dp.vwg-connect.com"
-          },
-        })
-          .then((result) => {
-            this.log.info("Tripdata Erfolg:" + JSON.stringify(result));
-            result.tripData.sort((a, b) => {
-              return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
-            });
-            if (this.config.numberOfTrips > 0)
-              result.tripData = result.tripData.slice(0, this.config.numberOfTrips);
-/*  
-            if (this.config.rawJson) {          
-              this.setObjectNotExistsAsync(vin + ".status.tripdata" + tripType + "rawJson", {
-                type: "state",
-                common: {
-                  name: "Raw Json",
-                  role: "indicator",
-                  type: "mixed",
-                  write: false,
-                  read: true,
-                },
-                native: {},
-              });
-              this.setState(vin + ".status.tripdata" + tripType + "rawJson", JSON.stringify(result.tripData), true);
-            }
-*/            
-            this.log.error(JSON.stringify(result));
-      		  //resolve();
-          })
-          .catch((error) => {
-            this.log.error(JSON.stringify(error));
-            //reject();
-            //   error.response && this.log.error(JSON.stringify(error.response.data));
-          });
-      }
-
-/*
-      
-        if (this.config.tripLongTerm) {
-          const tripType = "longTerm";
-          await axios({
-            method: "get",
-    		    url: "https://mal-3a.prd.eu.dp.vwg-connect.com/api/bs/tripstatistics/v1/vehicles/" + vin + "/tripdata/" + tripType + "?type=list",
-            headers: {
-        			accept: "application/json",
-        			"accept-charset": "utf-8",
-        			"X-App-Version": this.xappversion,
-        			"X-App-Name": this.xappname,
-        			authorization: " " + this.config.atoken,
-        			"X-Client-Id": this.xclientId,
-        			"user-agent": this.userAgent,
-        			"Accept-Encoding": "gzip"
-          },
-        })
-          .then(async (result) => {
-            result.tripData.sort((a, b) => {
-              return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
-            });
-            if (this.config.numberOfTrips > 0)
-              result.tripData = result.tripData.slice(0, this.config.numberOfTrips);
-  
-            if (this.config.rawJson) {          
-              await this.setObjectNotExistsAsync(vin + ".status.tripdata" + tripType + "rawJson", {
-                type: "state",
-                common: {
-                  name: "Raw Json",
-                  role: "indicator",
-                  type: "mixed",
-                  write: false,
-                  read: true,
-                },
-                native: {},
-              });
-              this.setState(vin + ".status.tripdata" + tripType + "rawJson", JSON.stringify(result.tripData), true);
-            }
-            this.log.debug(JSON.stringify(result));
-      		  resolve();
-          })
-          .catch((error) => {
-            this.log.debug(JSON.stringify(error));
-            reject();
-            //   error.response && this.log.error(JSON.stringify(error.response.data));
-          });
-        }
-
-
-*/
-
-
-
-
-
-
-
-
-
-
-
-      
-      
       await axios({
         method: "get",
         url: "https://emea.bff.cariad.digital/vehicle/v1/vehicles/" + vin + "/selectivestatus?jobs=all",
         headers: {
           "content-type": "application/json",
           accept: "*/*",
-          authorization: " " + this.config.atoken,
+          authorization: "Bearer " + this.config.atoken,
           "accept-language": "de-DE,de;q=0.9",
           "user-agent": this.userAgent,
           "content-version": "1",
@@ -2773,6 +2645,426 @@ class VwWeconnect extends utils.Adapter {
         });
     });
   }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  getIdStatusv2(vin) {
+    
+    return new Promise(async (resolve, reject) => {
+		if (this.config.type === "audietron") {		
+		  await axios({
+			method: "get",
+			url: "https://emea.bff.cariad.digital/vehicle/v1/vehicles/" + vin + "/parkingposition",
+			headers: {
+			  "content-type": "application/json",
+			  accept: "*/*",
+			  authorization: "Bearer " + this.config.atoken,
+			  "accept-language": "de-DE,de;q=0.9",
+			  "user-agent": this.userAgent,
+			  "content-version": "1",
+			},
+		  })
+			.then((res) => {
+			  if (res.status == 200) {
+				this.setIsCarMoving(vin, false);
+			  } else if (res.status == 204) {
+				this.setIsCarMoving(vin, true);
+			  }
+			  this.log.debug(JSON.stringify(res.data));
+			  this.extractKeys(this, vin + ".parkingposition", res.data.data);
+			})
+			.catch((error) => {
+			  this.log.debug(error);
+			  //   error.response && this.log.error(JSON.stringify(error.response.data));
+			});
+
+
+		  await axios({
+			method: "get",
+			url: "https://emea.bff.cariad.digital/vehicle/v1/vehicles/" + vin + "/selectivestatus?jobs=all",
+			headers: {
+			  "content-type": "application/json",
+			  accept: "*/*",
+			  authorization: "Bearer " + this.config.atoken,
+			  "accept-language": "de-DE,de;q=0.9",
+			  "user-agent": this.userAgent,
+			  "content-version": "1",
+			},
+		  })
+			.then(async (res) => {
+			  this.log.debug(JSON.stringify(res.data));
+			  const data = {};
+			  for (const key in res.data) {
+				if (key === "userCapabilities") {
+				  data[key] = res.data[key];
+				} else {
+				  for (const subkey in res.data[key]) {
+					if (data[subkey]) {
+					  data[key + "_" + subkey] = res.data[key][subkey].value || {};
+					} else {
+					  data[subkey] = res.data[key][subkey].value || {};
+					}
+				  }
+				}
+			  }
+			  if (data.odometerStatus && data.odometerStatus.error) {
+				this.log.warn("Odometer Error: " + data.odometerStatus.error);
+				this.log.info(
+				  "Please activate die Standortdaten freigeben und die automatische Terminvereinbarung in der VW App to receive odometer data",
+				);
+			  }
+			  // this.extractKeys(this, vin + ".status", data);
+			  this.json2iob.parse(vin + ".status", data, { forceIndex: false });
+			  if (this.config.rawJson) {
+				await this.setObjectNotExistsAsync(vin + ".status" + "rawJson", {
+				  type: "state",
+				  common: {
+					name: vin + ".status" + "rawJson",
+					role: "state",
+					type: "json",
+					write: false,
+					read: true,
+				  },
+				  native: {},
+				});
+				this.setState(vin + ".status" + "rawJson", JSON.stringify(data), true);
+			  }
+			  resolve();
+			})
+			.catch((error) => {
+			  if (error.response && error.response.status >= 500) {
+				this.log.info("Server not available:" + JSON.stringify(error.response.data));
+				return;
+			  }
+			  this.log.error(error);
+			  error && error.response && this.log.error(JSON.stringify(error.response.data));
+			  reject();
+			});
+		
+		
+		
+		
+			this.config.type = "audi";
+			this.type = "Audi";
+			this.country = "DE";
+			this.clientId = "09b6cbec-cd19-4589-82fd-363dfa8c24da@apps_vw-dilab_com";
+			this.xclientId = "77869e21-e30a-4a92-b016-48ab7d3db1d8";
+			this.scope =
+			"address profile badge birthdate birthplace nationalIdentifier nationality profession email vin phone nickname name picture mbb gallery openid";
+			this.redirect = "myaudi:///";
+			this.xrequest = "de.myaudi.mobile.assistant";
+			this.responseType = "token%20id_token";
+			// this.responseType = "code";
+			this.xappversion = "3.22.0";
+			this.xappname = "myAudi";	
+
+			this.login();
+			
+			this.log.info("atoken: Bearer " + this.config.atoken);
+			this.log.info("rtoken: Bearer " + this.config.rtoken);
+			this.log.info("vwatoken: Bearer " + this.config.vwatoken);
+			this.log.info("vwrtoken: Bearer " + this.config.vwrtoken);
+		}
+		
+
+		
+		
+		
+		
+		
+      
+ 
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    });
+	
+  }
+  
+  
+  
+  
+  
+  
+  
+  getAudiTripData(vwatoken){
+	  
+	this.log.info("getAudiTripData("+ vwatoken +") wurde gestartet");
+
+	const vin = 'WAUZZZGY9NA006343';
+
+	if (this.config.tripShortTerm) {
+		const url = 'https://mal-3a.prd.eu.dp.vwg-connect.com/api/bs/tripstatistics/v1/vehicles/WAUZZZGY9NA006343/tripdata/shortTerm?type=list';
+		this.log.info("URL: "+ url);
+		const tripType = "shortTerm";
+		this.log.info("Tripdata" + JSON.stringify(tripType));
+					
+		request.get(
+		{
+			url: url,
+			headers: {
+				accept: "application/json",
+				"accept-charset": "utf-8",
+				"X-App-Version": "4.18.0",
+				"X-App-Name": "myAudi",
+				authorization: "Bearer " + vwatoken,
+				"X-Client-Id": "a09b50fe-27f9-410b-9a3e-cb7e5b7e45eb",
+				"user-agent": "Android/4.18.0 (Build 800239240.root project 'onetouch-android'.ext.buildTime) Android/11",
+				Host: "mal-3a.prd.eu.dp.vwg-connect.com"
+			},
+			followAllRedirects: true,
+			json: true,
+		},
+		(err, resp, body) => {
+			if (err || (resp && resp.statusCode >= 400)) {
+				err && this.log.error(err);
+				resp && this.log.error(resp.statusCode.toString());
+				body && this.log.error(JSON.stringify(body));
+				return;
+			}
+			//this.log.debug(JSON.stringify(resp));
+			try {
+				this.log.info("Tripdata Erfolg:" + JSON.stringify(body));
+				body.tripDataList.tripData.sort((a, b) => {
+					return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
+				});
+				if (this.config.numberOfTrips > 0)
+					body.tripDataList.tripData = body.tripDataList.tripData.slice(0, this.config.numberOfTrips);
+				if (this.config.rawJson) {
+					this.setObjectNotExists(vin + ".tripdata" + tripType + "rawJson", {
+						type: "state",
+						common: {
+						  name: "Raw Json",
+						  role: "indicator",
+						  type: "mixed",
+						  write: false,
+						  read: true,
+						},
+						native: {},
+				  })
+					.then(() => {
+						this.setState(vin + ".tripdata" + tripType + "rawJson", JSON.stringify(body.tripDataList.tripData), true);
+					})
+					.catch((error) => {
+						this.log.error(error);
+					});
+				}
+			} catch (err) {
+				this.log.error(err);
+			}
+		});	
+				
+	}
+				
+
+				
+	if (this.config.tripLongTerm) {
+		const url = 'https://mal-3a.prd.eu.dp.vwg-connect.com/api/bs/tripstatistics/v1/vehicles/WAUZZZGY9NA006343/tripdata/longTerm?type=list';
+		this.log.info("URL: "+ url);
+		const tripType = "longTerm";
+		this.log.info("Tripdata" + JSON.stringify(tripType));
+					
+		request.get(
+		{
+			url: url,
+			headers: {
+				accept: "application/json",
+				"accept-charset": "utf-8",
+				"X-App-Version": "4.18.0",
+				"X-App-Name": "myAudi",
+				authorization: "Bearer " + vwatoken,
+				"X-Client-Id": "a09b50fe-27f9-410b-9a3e-cb7e5b7e45eb",
+				"user-agent": "Android/4.18.0 (Build 800239240.root project 'onetouch-android'.ext.buildTime) Android/11",
+				Host: "mal-3a.prd.eu.dp.vwg-connect.com"
+			},
+			followAllRedirects: true,
+			json: true,
+		},
+		(err, resp, body) => {
+			if (err || (resp && resp.statusCode >= 400)) {
+				err && this.log.error(err);
+				resp && this.log.error(resp.statusCode.toString());
+				body && this.log.error(JSON.stringify(body));
+				return;
+			}
+			//this.log.debug(JSON.stringify(resp));
+			try {
+				this.log.info("Tripdata Erfolg:" + JSON.stringify(body));
+				body.tripDataList.tripData.sort((a, b) => {
+					return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
+				});
+				if (this.config.numberOfTrips > 0)
+					body.tripDataList.tripData = body.tripDataList.tripData.slice(0, this.config.numberOfTrips);
+				if (this.config.rawJson) {
+					this.setObjectNotExists(vin + ".tripdata" + tripType + "rawJson", {
+						type: "state",
+						common: {
+						  name: "Raw Json",
+						  role: "indicator",
+						  type: "mixed",
+						  write: false,
+						  read: true,
+						},
+						native: {},
+				  })
+					.then(() => {
+						this.setState(vin + ".tripdata" + tripType + "rawJson", JSON.stringify(body.tripDataList.tripData), true);
+					})
+					.catch((error) => {
+						this.log.error(error);
+					});
+				}
+			} catch (err) {
+				this.log.error(err);
+			}
+		});	
+				
+	}				
+				
+				
+				
+				
+				
+	/*			
+				
+				  .then((result) => {
+					this.log.info("Tripdata Erfolg:" + JSON.stringify(result));
+					result.tripData.sort((a, b) => {
+					  return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
+					});
+					if (this.config.numberOfTrips > 0)
+					  result.tripData = result.tripData.slice(0, this.config.numberOfTrips);
+		  
+					if (this.config.rawJson) {          
+					  this.setObjectNotExistsAsync(vin + ".status.tripdata" + tripType + "rawJson", {
+						type: "state",
+						common: {
+						  name: "Raw Json",
+						  role: "indicator",
+						  type: "mixed",
+						  write: false,
+						  read: true,
+						},
+						native: {},
+					  });
+					  this.setState(vin + ".status.tripdata" + tripType + "rawJson", JSON.stringify(result.tripData), true);
+					}
+					
+					this.log.error(JSON.stringify(result));
+					  //resolve();
+				  })
+				  .catch((error) => {
+					this.log.error(JSON.stringify(error));
+					//reject();
+					error.response && this.log.error(JSON.stringify(error.response.data));
+				  });
+			  }
+
+		 /*     
+				if (this.config.tripLongTerm) {
+				  const tripType = "longTerm";
+				  await axios({
+					method: "get",
+						url: "https://mal-3a.prd.eu.dp.vwg-connect.com/api/bs/tripstatistics/v1/vehicles/" + vin + "/tripdata/" + tripType + "?type=list",
+					headers: {
+							accept: "application/json",
+							"accept-charset": "utf-8",
+							"X-App-Version": this.xappversion,
+							"X-App-Name": this.xappname,
+							authorization: " " + this.config.atoken,
+							"X-Client-Id": this.xclientId,
+							"user-agent": this.userAgent,
+							"Accept-Encoding": "gzip"
+				  },
+				})
+				  .then(async (result) => {
+					result.tripData.sort((a, b) => {
+					  return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
+					});
+					if (this.config.numberOfTrips > 0)
+					  result.tripData = result.tripData.slice(0, this.config.numberOfTrips);
+		  
+					if (this.config.rawJson) {          
+					  await this.setObjectNotExistsAsync(vin + ".status.tripdata" + tripType + "rawJson", {
+						type: "state",
+						common: {
+						  name: "Raw Json",
+						  role: "indicator",
+						  type: "mixed",
+						  write: false,
+						  read: true,
+						},
+						native: {},
+					  });
+					  this.setState(vin + ".status.tripdata" + tripType + "rawJson", JSON.stringify(result.tripData), true);
+					}
+					this.log.debug(JSON.stringify(result));
+					  resolve();
+				  })
+				  .catch((error) => {
+					this.log.debug(JSON.stringify(error));
+					reject();
+					//   error.response && this.log.error(JSON.stringify(error.response.data));
+				  });
+				}
+
+
+		*/
+	  
+	  
+	
+	  
+	  
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  
+  
+  
+  
+  
+  
   getSeatCupraStatus(vin) {
     return new Promise((resolve, reject) => {
       request.get(
